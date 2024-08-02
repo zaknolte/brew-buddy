@@ -7,13 +7,13 @@ import { signIn } from "next-auth/react";
 export default function LoginPage() {
     const router = useRouter();
     const [user, setUser] = useState({
-        name: '',
+        // loginID: '',
         email: '',
         password: ''
     });
 
-    const loginUser = async (e) => {
-        e.preventDefault();
+    const loginUser = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
         signIn('credentials', {...user, redirect: false})
 
         router.push('/home')
@@ -28,7 +28,7 @@ export default function LoginPage() {
 
             <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                 <form className="space-y-6" action="#" method="POST" onSubmit={loginUser}>
-                    <div>
+                    {/* <div>
                         <label htmlFor="username" className="block text-sm font-medium leading-6 text-gray-900">Username</label>
                         <div className="mt-2">
                             <input 
@@ -37,11 +37,11 @@ export default function LoginPage() {
                                 type="username"
                                 autoComplete="username"
                                 required
-                                value={user.name}
-                                onChange={(e) => {setUser({...user, name: e.target.value})}}
+                                value={user.loginID}
+                                onChange={(e) => {setUser({...user, loginID: e.target.value})}}
                                 className="block w-full pl-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
                         </div>
-                    </div>
+                    </div> */}
                     <div>
                         <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">Email address</label>
                         <div className="mt-2">
@@ -83,8 +83,8 @@ export default function LoginPage() {
                 </form>
 
                 <p className="mt-10 text-center text-sm text-gray-500">
-                    Not a member?
-                    <a href="#" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Start a 14 day free trial</a>
+                    Not a member? 
+                    <a href="/register" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Register now!</a>
                 </p>
             </div>
         </div>
