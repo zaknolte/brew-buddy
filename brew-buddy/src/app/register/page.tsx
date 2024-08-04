@@ -12,6 +12,8 @@ export default function RegisterPage() {
         password: ''
     });
 
+    const [emailExists, setEmailExists] = useState(false)
+
     const createUser = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const response = await fetch('/api/register', {
@@ -20,8 +22,12 @@ export default function RegisterPage() {
             body: JSON.stringify({user})
         })
 
-        const userData = await response.json();
-        router.push('/login')
+        if (response.status === 400) {
+            setEmailExists(true)
+        }
+        else if (response.status === 200) {
+            router.push('/login')
+        }
     }
     
     return (
@@ -49,7 +55,7 @@ export default function RegisterPage() {
                     </div> */}
                     <div>
                         <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">Email address</label>
-                        <div className="mt-2">
+                        <div className={`mt-2 ${emailExists ? 'border-2 border-rose-500': ''}`}>
                             <input 
                                 id="email"
                                 name="email"
@@ -60,6 +66,13 @@ export default function RegisterPage() {
                                 onChange={(e) => {setUser({...user, email: e.target.value})}}
                                 className="block w-full pl-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
                         </div>
+                        {emailExists ? 
+                            <p className="text-center text-sm text-red-500">
+                                User email already registered.&nbsp;
+                                <a href="/login" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Login instead?</a>
+                            </p>: 
+                            <></>
+                        }
                     </div>
 
                     <div>
@@ -82,6 +95,7 @@ export default function RegisterPage() {
                     <div>
                         <button type="submit" className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Create account</button>
                     </div>
+
                 </form>
             </div>
         </div>

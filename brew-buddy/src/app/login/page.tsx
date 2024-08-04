@@ -12,11 +12,17 @@ export default function LoginPage() {
         password: ''
     });
 
+    const [singInError, setSignInError] = useState(false);
+
     const loginUser = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        signIn('credentials', {...user, redirect: false})
-
-        router.push('/home')
+        const response = await signIn('credentials', {...user, redirect: false});
+        if (response?.status === 200) {
+            router.push('/home')
+        }
+        else {
+            setSignInError(true)
+        }
     }
     
     return (
@@ -82,8 +88,10 @@ export default function LoginPage() {
                     </div>
                 </form>
 
-                <p className="mt-10 text-center text-sm text-gray-500">
-                    Not a member? 
+                {singInError ? <p className="mt-5 text-center text-md text-red-500">Email or password incorrect.</p>: <></>}
+
+                <p className="mt-5 text-center text-sm text-gray-500">
+                    Not a member?&nbsp;
                     <a href="/register" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Register now!</a>
                 </p>
             </div>
