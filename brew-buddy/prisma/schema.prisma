@@ -77,3 +77,24 @@ model Authenticator {
  
   @@id([userId, credentialID])
 }
+
+model Hops {
+  id           Int          @id @default(autoincrement())
+  name         String
+  description  String
+  acid         Float
+}
+
+model Grains {
+  id           Int          @id @default(autoincrement())
+  name         String
+  description  String
+  gravity      Float
+}
+
+model Yeast {
+  id           Int          @id @default(autoincrement())
+  name         String
+  description  String
+  attenuation  Float
+}
