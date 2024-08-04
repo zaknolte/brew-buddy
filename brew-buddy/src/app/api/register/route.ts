@@ -5,7 +5,7 @@ import { json } from 'stream/consumers';
 
 const prisma = new PrismaClient();
 
-export async function POST(req) {
+export async function POST(req: unknown) {
     const body = await req.json();
     const { email, password} = body.user;
     if ( !email || !password) {
@@ -19,7 +19,7 @@ export async function POST(req) {
     });
 
     if (emailExists) {
-        return new NextResponse("User already exists", { status: 400})
+        return NextResponse.json({ error: "User already exists" }, { status: 400})
     };
 
     const hashPass = await bcrypt.hash(password, 10);
