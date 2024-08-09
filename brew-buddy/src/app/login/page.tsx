@@ -18,7 +18,7 @@ export default function LoginPage() {
         event.preventDefault();
         const response = await signIn('credentials', {...user, redirect: false});
         if (response?.status === 200) {
-            router.push('/home')
+            router.push('/dashboard')
         }
         else {
             setSignInError(true)
